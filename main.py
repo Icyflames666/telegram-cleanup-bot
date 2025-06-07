@@ -3,7 +3,7 @@ import threading
 import os
 
 # Your Telegram bot token
-BOT_TOKEN = os.getenv("BOT_TOKEN") or "7811300162:AAG8BptdmgV5rKhGJA-VSI2h8w0S1LvXtnk"
+BOT_TOKEN = os.getenv("BOT_TOKEN") or "7811300162:AAEAE82ML6q1GI45SzqNtrKzJw9Fv4Xn2kA"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
