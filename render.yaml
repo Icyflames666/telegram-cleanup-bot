@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: telegram-cleanup-bot
+    env: python
+    region: ohio  # or your preferred region
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false  # Must set manually in dashboard
+      - key: PYTHON_VERSION
+        value: 3.10.13
