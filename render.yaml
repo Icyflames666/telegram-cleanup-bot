@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: telegram-auto-delete-bot
+    runtime: python
+    buildCommand: ""
+    startCommand: "python main.py"
+    envVars:
+      - key: BOT_TOKEN
+        value: YOUR_BOT_TOKEN_HERE
