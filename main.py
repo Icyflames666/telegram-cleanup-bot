@@ -1,20 +1,25 @@
+import telebot
+import threading
 import os
-from telegram import Update
-from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+# Your Telegram bot token
+BOT_TOKEN = os.getenv("BOT_TOKEN") or "7811300162:AAG8BptdmgV5rKhGJA-VSI2h8w0S1LvXtnk"
 
-async def delete_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+bot = telebot.TeleBot(BOT_TOKEN)
+
+# Function to schedule deletion
+def schedule_delete(chat_id, message_id, delay=900):  # 900 seconds = 15 minutes
+    threading.Timer(delay, lambda: delete_message(chat_id, message_id)).start()
+
+def delete_message(chat_id, message_id):
     try:
-        await context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
+        bot.delete_message(chat_id, message_id)
     except Exception as e:
         print(f"Failed to delete message: {e}")
 
-app = ApplicationBuilder().token(BOT_TOKEN).build()
+# Handle all messages in the group
+@bot.message_handler(func=lambda message: True)
+def handle_all_messages(message):
+    schedule_delete(message.chat.id, message.message_id)
 
-# Match all types of messages
-app.add_handler(MessageHandler(filters.ALL, delete_message))
-
-if __name__ == "__main__":
-    print("Bot is running...")
-    app.run_polling()
+bot.polling(non_stop=True)
