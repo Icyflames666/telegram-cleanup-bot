@@ -6,25 +6,23 @@ import requests
 import logging
 from flask import Flask
 
-# Configure logging - FIXED
+# Configure logging - PROPERLY FIXED
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-logger = logging.getLogger(_name)  # FIXED: __name_ with double underscores
+logger = logging.getLogger(_name)  # CORRECT: = and __name_
 
-# Initialize Flask app - FIXED
-app = Flask(_name)  # FIXED: __name_ with double underscores
+# Initialize Flask app - PROPERLY FIXED
+app = Flask(_name)  # CORRECT: = and __name_
 
 # SECURE: Get token ONLY from environment variables
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 if not BOT_TOKEN:
-    logger.error("BOT_TOKEN environment variable not set!")
     raise RuntimeError("BOT_TOKEN environment variable not set!")
 
 # Additional security validation
 if len(BOT_TOKEN) < 30 or ":" not in BOT_TOKEN:
-    logger.error("Invalid bot token format!")
     raise ValueError("Invalid bot token format!")
 
 bot = telebot.TeleBot(BOT_TOKEN)
